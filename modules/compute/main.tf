@@ -1,12 +1,12 @@
 data "google_compute_image" "debian" {
-  family  = "debian-12"
-  project = "debian-cloud"
+  family  = var.vm_image_family
+  project = var.vm_image_project
 }
 
 resource "google_compute_instance" "lz_test_vm" {
-  name         = "lz-test-vm"
-  machine_type = "e2-micro"
-  zone         = "asia-south1-a"
+  name         = var.vm_name
+  machine_type = var.vm_machine_type
+  zone         = var.vm_zone
 
   boot_disk {
     initialize_params {

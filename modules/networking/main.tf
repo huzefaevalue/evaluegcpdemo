@@ -1,13 +1,13 @@
 resource "google_compute_network" "lz_hub_vpc" {
-  name                    = "lz-hub-vpc"
+  name                    = var.vpc_name
   project                 = var.project_id
   auto_create_subnetworks = false
 }
 
 resource "google_compute_subnetwork" "lz_private_subnet_a" {
-  name                     = "lz-private-subnet-a"
+  name                     = var.subnet_a_name
   project                  = var.project_id
-  ip_cidr_range            = "10.10.1.0/24"
+  ip_cidr_range            = var.subnet_a_cidr
   region                   = "asia-south1"
   network                  = google_compute_network.lz_hub_vpc.self_link
   private_ip_google_access = true
@@ -20,9 +20,9 @@ resource "google_compute_subnetwork" "lz_private_subnet_a" {
 }
 
 resource "google_compute_subnetwork" "lz_private_subnet_b" {
-  name                     = "lz-private-subnet-b"
+  name                     = var.subnet_b_name
   project                  = var.project_id
-  ip_cidr_range            = "10.10.2.0/24"
+  ip_cidr_range            = var.subnet_b_cidr
   region                   = "asia-south1"
   network                  = google_compute_network.lz_hub_vpc.self_link
   private_ip_google_access = true
@@ -35,14 +35,14 @@ resource "google_compute_subnetwork" "lz_private_subnet_b" {
 }
 
 resource "google_compute_router" "lz_router" {
-  name    = "lz-hub-router"
+  name    = var.router_name
   project = var.project_id
   region  = "asia-south1"
   network = google_compute_network.lz_hub_vpc.self_link
 }
 
 resource "google_compute_router_nat" "lz_nat" {
-  name                               = "lz-hub-nat"
+  name                               = var.nat_name
   project                            = var.project_id
   router                             = google_compute_router.lz_router.name
   region                             = "asia-south1"
@@ -61,7 +61,7 @@ resource "google_compute_router_nat" "lz_nat" {
 }
 
 resource "google_compute_firewall" "deny_all_ingress" {
-  name      = "lz-deny-all-ingress"
+  name      = var.deny_all_fw_name
   project   = var.project_id
   network   = google_compute_network.lz_hub_vpc.name
   direction = "INGRESS"
@@ -79,10 +79,10 @@ resource "google_compute_firewall" "deny_all_ingress" {
 }
 
 resource "google_compute_firewall" "allow_ssh_internal" {
-  name          = "lz-allow-ssh-internal"
+  name          = var.ssh_internal_fw_name
   project       = var.project_id
   network       = google_compute_network.lz_hub_vpc.name
-  source_ranges = ["10.10.0.0/16"]
+  source_ranges = [var.vpc_internal_cidr]
 
   allow {
     protocol = "tcp"
@@ -95,7 +95,7 @@ resource "google_compute_firewall" "allow_ssh_internal" {
 }
 
 resource "google_compute_firewall" "allow_all_egress" {
-  name               = "lz-allow-all-egress"
+  name               = var.egress_all_fw_name
   project            = var.project_id
   network            = google_compute_network.lz_hub_vpc.name
   direction          = "EGRESS"
@@ -104,4 +104,9 @@ resource "google_compute_firewall" "allow_all_egress" {
   allow {
     protocol = "all"
   }
+}
+
+# OUTPUT SUBNET SELF LINK FOR COMPUTE MODULE
+output "subnet_a_self_link" {
+  value = google_compute_subnetwork.lz_private_subnet_a.self_link
 }

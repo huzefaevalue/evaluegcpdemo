@@ -1,15 +1,15 @@
 resource "google_service_account" "lz_admin_sa" {
-  account_id   = "lz-admin-sa"
+  account_id   = var.admin_sa_name
   display_name = "LZ Admin Service Account"
 }
 
 resource "google_service_account" "lz_runtime_sa" {
-  account_id   = "lz-runtime-sa"
+  account_id   = var.runtime_sa_name
   display_name = "LZ Runtime Service Account"
 }
 
 resource "google_service_account" "lz_monitoring_sa" {
-  account_id   = "lz-monitoring-sa"
+  account_id   = var.monitoring_sa_name
   display_name = "LZ Monitoring Service Account"
 }
 
@@ -47,4 +47,9 @@ resource "google_compute_project_metadata" "os_login" {
   metadata = {
     enable-oslogin = "TRUE"
   }
+}
+
+# OUTPUT RUNTIME SA EMAIL FOR COMPUTE MODULE
+output "runtime_sa_email" {
+  value = google_service_account.lz_runtime_sa.email
 }
