@@ -105,8 +105,3 @@ resource "google_compute_firewall" "allow_all_egress" {
     protocol = "all"
   }
 }
-
-# OUTPUT SUBNET SELF LINK FOR COMPUTE MODULE
-output "subnet_a_self_link" {
-  value = google_compute_subnetwork.lz_private_subnet_a.self_link
-}

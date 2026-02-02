@@ -48,8 +48,3 @@ resource "google_compute_project_metadata" "os_login" {
     enable-oslogin = "TRUE"
   }
 }
-
-# OUTPUT RUNTIME SA EMAIL FOR COMPUTE MODULE
-output "runtime_sa_email" {
-  value = google_service_account.lz_runtime_sa.email
-}
