@@ -1,7 +1,3 @@
-variable "project_id" {
-  type = string
-}
-
-variable "notification_email" {
-  type = string
-}
+variable "project_id" {}
+variable "notification_email" {}
+variable "logs_bucket_name" {}

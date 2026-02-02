@@ -1,9 +1,22 @@
-variable "project_id" {
-  description = "GCP Project ID"
-  type        = string
-}
-
-variable "notification_email" {
-  description = "Email for monitoring alerts"
-  type        = string
-}
+variable "project_id" {}
+variable "notification_email" {}
+variable "vpc_name" {}
+variable "subnet_a_name" {}
+variable "subnet_a_cidr" {}
+variable "subnet_b_name" {}
+variable "subnet_b_cidr" {}
+variable "router_name" {}
+variable "nat_name" {}
+variable "vpc_internal_cidr" {}
+variable "deny_all_fw_name" {}
+variable "ssh_internal_fw_name" {}
+variable "egress_all_fw_name" {}
+variable "admin_sa_name" {}
+variable "runtime_sa_name" {}
+variable "monitoring_sa_name" {}
+variable "vm_name" {}
+variable "vm_zone" {}
+variable "vm_machine_type" {}
+variable "vm_image_family" {}
+variable "vm_image_project" {}
+variable "logs_bucket_name" {}

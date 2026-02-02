@@ -1,4 +1,12 @@
-variable "project_id" {
-  description = "GCP Project ID"
-  type        = string
-}
+variable "project_id" {}
+variable "vpc_name" {}
+variable "subnet_a_name" {}
+variable "subnet_a_cidr" {}
+variable "subnet_b_name" {}
+variable "subnet_b_cidr" {}
+variable "router_name" {}
+variable "nat_name" {}
+variable "vpc_internal_cidr" {}
+variable "deny_all_fw_name" {}
+variable "ssh_internal_fw_name" {}
+variable "egress_all_fw_name" {}

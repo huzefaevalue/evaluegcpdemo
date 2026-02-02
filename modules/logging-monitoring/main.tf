@@ -6,13 +6,13 @@ resource "google_project_service" "required_apis" {
     "storage.googleapis.com",
     "cloudresourcemanager.googleapis.com"
   ])
-  project = var.project_id
-  service = each.key
+  project                    = var.project_id
+  service                    = each.key
   disable_dependent_services = false
 }
 
 resource "google_storage_bucket" "lz_logs_bucket" {
-  name                        = "${var.project_id}-lz-logs"
+  name                        = var.logs_bucket_name
   location                    = "asia-south1"
   uniform_bucket_level_access = true
   public_access_prevention    = "enforced"
